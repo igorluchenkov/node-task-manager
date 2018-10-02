@@ -1,10 +1,11 @@
 const mongoose = require('mongoose')
+const { User } = require('./user')
 
 const Task = mongoose.model('Task', new mongoose.Schema({
-	author: {
-		type: String,
-		required: true
-	},
+	// creator: {
+	// 	type: User,
+	// 	required: true
+	// },
 	taskMessage: {
 		type: String,
 		required: true
@@ -13,14 +14,14 @@ const Task = mongoose.model('Task', new mongoose.Schema({
 
 function validateTask (params) {
 	const validationResult = {};
-	['author', 'taskMessage'].forEach(fieldName => {
+	['creator', 'taskMessage'].forEach(fieldName => {
 		if (!params[fieldName]) {
 			validationResult.error = {
 				errorMessage: `There's no '${fieldName}' field in your task`
 			}
 		}
 	})
-	console.log(validationResult)
+
 	return validationResult
 }
 
