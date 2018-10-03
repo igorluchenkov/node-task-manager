@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Joi = require('joi')
-const { User, validate: validateUser } = require('../models/user')
+const { User, validateUser } = require('../models/user')
 const _ = require('lodash')
 const bcrypt = require('bcryptjs')
 

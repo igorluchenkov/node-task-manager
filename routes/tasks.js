@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { Task, validateTask } = require('../models/task')
-const { User } = require('../models/user')
+const auth = require('../middlewares/auth')
 
 router.get('/', async (req, res) => {
 	const tasksList = await Task.find()
@@ -10,21 +10,22 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
 	const task = await Task.find({ _id: req.params.id })
+	if (!task) return res.status(400).send('Cannot get task with given id.')
 	res.send(task)
 })
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
 	const { error } = validateTask(req.body)
-	if (error) return res.status(400).send({ error })
+	if (error) return res.status(400).send(error.details[0].message)
 	
 	const task = new Task(req.body)
 	const tasksList = await task.save()
 	res.send(tasksList);
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
 	const { error } = validateTask(req.body)
-	if (error) return res.status(400).send({ error })
+	if (error) return res.status(400).send(error.details[0].message)
 
 	const { id } = req.params
 	const result = await Task.findOneAndUpdate(
@@ -38,7 +39,7 @@ router.put('/:id', async (req, res) => {
   res.send(result);
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
 	const { id } = req.params
 	const result = await Task.findByIdAndRemove({ _id: id })
 
