@@ -4,7 +4,6 @@ const { User } = require('../models/user')
 const authToken = require('../middlewares/authToken')
 const loggedUser = require('../middlewares/loggedUser')
 const bcrypt = require('bcryptjs')
-const Joi = require('joi')
 
 router.get('/', authToken, async (req, res) => {
 	const user = await User.findById(req.user._id).select('-password')

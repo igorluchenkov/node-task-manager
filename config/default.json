@@ -1,3 +1,8 @@
 {
-	"jwtPrivateKey": "123"
+	"jwtPrivateKey": "123",
+	"db": {
+		"prefix": "mongodb://",
+		"host": "localhost",
+		"database": "todo"
+	}
 }

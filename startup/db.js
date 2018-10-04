@@ -1,7 +1,13 @@
 const winston = require('winston')
 const mongoose = require('mongoose')
+const config = require('config')
 
-module.exports = function () {
-	mongoose.connect('mongodb://localhost/todo', { useNewUrlParser: true })
+module.exports = () => {
+	const { prefix, host, database } = config.get('db')
+	const connectionString = `${prefix}${host}/${database}`
+	console.log(connectionString)
+
+	mongoose.connect(connectionString, { useNewUrlParser: true })
 		.then(() => winston.info('Connected to MongoDB...'))
+		.catch(console.log)
 }

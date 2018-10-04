@@ -8,7 +8,7 @@ const Task = mongoose.model('Task', new mongoose.Schema({
 	}
 }))
 
-function validateTask (task) {
+const validateTask = task => {
 	const schema = {
 		taskMessage: Joi.string().required()
 	}

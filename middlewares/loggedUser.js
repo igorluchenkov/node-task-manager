@@ -1,4 +1,4 @@
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
     const { error } = validate(req.body)
     if (error) return res.status(400).send(error.details[0].message)
 
@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
     next()
 }
 
-function validate (req) {
+const validate = req => {
 	const schema = {
 		email: Joi.string().min(5).max(255).required().email(),
 		password: Joi.string().min(5).max(1024).required(),

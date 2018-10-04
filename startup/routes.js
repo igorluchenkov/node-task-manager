@@ -4,7 +4,7 @@ const authRoutes = require('../routes/auth')
 const profileRoutes = require('../routes/profile')
 const error = require('../middlewares/error')
 
-module.exports = function (app) {
+module.exports = app => {
 	app.use(express.json())
 	app.use('/tasks/', tasksRoutes)
 	app.use('/auth/', authRoutes)
