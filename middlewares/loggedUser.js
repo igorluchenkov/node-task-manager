@@ -10,3 +10,15 @@ module.exports = (req, res, next) => {
     
     next()
 }
+
+function validate (req) {
+	const schema = {
+		email: Joi.string().min(5).max(255).required().email(),
+		password: Joi.string().min(5).max(1024).required(),
+		newPassword: Joi.string().min(5).max(1024),
+		newName: Joi.string().min(5).max(50),
+		newEmail: Joi.string().min(5).max(255).email()
+	}
+
+	return Joi.validate(req, schema)
+}

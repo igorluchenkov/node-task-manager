@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { Task, validateTask } = require('../models/task')
-const auth = require('../middlewares/auth')
+const authToken = require('../middlewares/authToken')
 
 router.get('/', async (req, res) => {
 	const tasksList = await Task.find()
@@ -14,7 +14,7 @@ router.get('/:id', async (req, res) => {
 	res.send(task)
 })
 
-router.post('/', auth, async (req, res) => {
+router.post('/', authToken, async (req, res) => {
 	const { error } = validateTask(req.body)
 	if (error) return res.status(400).send(error.details[0].message)
 	
@@ -23,7 +23,7 @@ router.post('/', auth, async (req, res) => {
 	res.send(tasksList);
 });
 
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', authToken, async (req, res) => {
 	const { error } = validateTask(req.body)
 	if (error) return res.status(400).send(error.details[0].message)
 
@@ -39,7 +39,7 @@ router.put('/:id', auth, async (req, res) => {
   res.send(result);
 });
 
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', authToken, async (req, res) => {
 	const { id } = req.params
 	const result = await Task.findByIdAndRemove({ _id: id })
 
