@@ -19,7 +19,7 @@ router.put('/password', [authToken, loggedUser], async (req, res) => {
 	user.password = await bcrypt.hash(newPassword, salt);
 	await user.save()
 	
-	const token = req.header('x-authToken-token')
+	const token = req.header('x-auth-token')
 	res.send(token);
 })
 
@@ -30,7 +30,7 @@ router.put('/name', [authToken, loggedUser], async (req, res) => {
 	user.name = newName
 	await user.save()
 
-	const token = req.header('x-authToken-token')
+	const token = req.header('x-auth-token')
 	res.send(token);
 })
 
@@ -41,7 +41,7 @@ router.put('/email', [authToken, loggedUser], async (req, res) => {
 	user.email = newEmail
 	await user.save()
 
-	const token = req.header('x-authToken-token')
+	const token = req.header('x-auth-token')
 	res.send(token);
 })
 
