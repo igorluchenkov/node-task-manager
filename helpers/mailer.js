@@ -19,10 +19,17 @@ class Mailer {
         from: this.from,
         ...mailOptions
       }, (error, info) => {
-        if (error) reject(error)
+        if (error) {
+          logRejectedMailSending(error)
+          reject(error)
+        }
         resolve(info)
       });
     })
+  }
+
+  logRejectedMailSending () {
+    // Winston logging here
   }
 }
 
