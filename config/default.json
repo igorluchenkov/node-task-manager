@@ -4,5 +4,10 @@
 		"prefix": "mongodb://",
 		"host": "localhost",
 		"database": "todo"
+	},
+	"mailAccountData": {
+		"service": "gmail",
+		"user": "",
+		"pass": ""
 	}
 }
