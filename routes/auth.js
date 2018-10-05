@@ -4,6 +4,7 @@ const Joi = require('joi')
 const { User, validateUser } = require('../models/user')
 const _ = require('lodash')
 const bcrypt = require('bcryptjs')
+const Mailer = require('../helpers/mailer')
 
 router.post('/register', async (req, res) => {
 	const { error } = validateUser(req.body)
@@ -17,6 +18,12 @@ router.post('/register', async (req, res) => {
 	user.password = await bcrypt.hash(user.password, salt);
 	await user.save()
 
+	Mailer.sendRegistrationNotify({
+		...req.body,
+		text: `Dear ${user.name}
+		Thank you for signing up to our Task Manager!`
+	})
+	
 	const token = user.generateAuthToken()
 	res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email']));
 })

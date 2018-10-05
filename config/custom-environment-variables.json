@@ -1,3 +1,14 @@
 {
-	"jwtPrivateKey": "task-manager_jwtPrivateKey"
+	"jwtPrivateKey": "123",
+	"db": {
+		"prefix": "mongodb://",
+		"host": "localhost",
+		"database": "todo"
+	},
+	"mailAccountData": {
+		"service": "gmail",
+		"user": "",
+		"pass": "",
+		"from": "\"MailBot\" <iluchenkov@gmail.com>"
+	}
 }

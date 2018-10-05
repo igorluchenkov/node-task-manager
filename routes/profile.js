@@ -4,6 +4,7 @@ const { User } = require('../models/user')
 const authToken = require('../middlewares/authToken')
 const loggedUser = require('../middlewares/loggedUser')
 const bcrypt = require('bcryptjs')
+const Mailer = require('../helpers/mailer')
 
 router.get('/', authToken, async (req, res) => {
 	const user = await User.findById(req.user._id).select('-password')
@@ -42,6 +43,17 @@ router.put('/email', [authToken, loggedUser], async (req, res) => {
 
 	const token = req.header('x-auth-token')
 	res.send(token);
+})
+
+router.post('/forget', async (req, res) => {
+	const { email } = req.body
+	if (!email) return res.status(400).send('"email" is required.')
+
+	const user = User.find({ email })
+	if (!user) return res.status(400).send('Invalid email.')
+
+	await Mailer.sendPasswordRecovery(email)
+	res.send('Email was successfully sent!');
 })
 
 module.exports = router
