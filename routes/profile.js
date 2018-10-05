@@ -41,6 +41,13 @@ router.put('/email', [authToken, loggedUser], async (req, res) => {
 	user.email = newEmail
 	await user.save()
 
+	await Mailer.sendMail({
+		to: req.body.email,
+		subject: 'Your email was changed!',
+		text: `Dear ${user.name}
+		You have successfully changed your account's email to ${newEmail}`
+	})
+
 	const token = req.header('x-auth-token')
 	res.send(token);
 })
@@ -52,7 +59,12 @@ router.post('/forget', async (req, res) => {
 	const user = User.find({ email })
 	if (!user) return res.status(400).send('Invalid email.')
 
-	await Mailer.sendPasswordRecovery(email)
+	await Mailer.sendMail({ 
+		to: email,
+		subject: 'Password recovery!',
+		text: 'Hey! Want some password recovery? ...'
+	})
+
 	res.send('Email was successfully sent!');
 })
 

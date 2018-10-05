@@ -24,26 +24,6 @@ class Mailer {
       });
     })
   }
-
-  static sendRegistrationNotify ({ to, text }) {
-    const mailOptions = {
-      to,
-      subject: 'Thank you for join our resource!',
-      text
-    };
-
-    return this.sendMail(mailOptions)
-  }
-
-  static sendPasswordRecovery ({ to }) {
-    const mailOptions = {
-      to,
-      subject: 'Password recovery!',
-      text: 'Hey! Want some password recovery? ...'
-    };
-    
-    return this.sendMail(mailOptions)
-  }
 }
 
 module.exports = new Mailer(nodemailer, config)

@@ -18,12 +18,17 @@ router.post('/register', async (req, res) => {
 	user.password = await bcrypt.hash(user.password, salt);
 	await user.save()
 
-	Mailer.sendRegistrationNotify({
-		...req.body,
+	const mailerResult = Mailer.sendMail({
+		to: req.body.email,
+		subject: 'Thank you for join our resource!',
 		text: `Dear ${user.name}
 		Thank you for signing up to our Task Manager!`
 	})
 	
+	mailerResult
+		.then(console.log)
+		.catch(console.error)
+		
 	const token = user.generateAuthToken()
 	res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email']));
 })
