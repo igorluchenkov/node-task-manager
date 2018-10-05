@@ -52,7 +52,6 @@ router.post('/forget', async (req, res) => {
 	const user = User.find({ email })
 	if (!user) return res.status(400).send('Invalid email.')
 
-	// Посылаем письмо для восстановления
 	await Mailer.sendPasswordRecovery(email)
 	res.send('Email was successfully sent!');
 })

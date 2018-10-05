@@ -3,33 +3,45 @@ const config = require('config')
 
 module.exports = class Mailer {
   constructor (nodemailer, config) {
-    const { service, user, pass } = config.get('mailAccountData')
+    const { service, user, pass, from } = config.get('mailAccountData')
 
     this.transporter = nodemailer.createTransport({
       service,
       auth: { user, pass }
     })
 
-    this.from = '"MailBot" <iluchenkov@gmail.com>'
+    this.from = from
   }
 
   sendMail (mailOptions) {
     return new Promise((resolve, reject) => {
-      this.transporter.sendMail(mailOptions, (error, info) => {
+      this.transporter.sendMail({
+        from: this.from,
+        ...mailOptions
+      }, (error, info) => {
         if (error) reject(error)
         resolve(info)
       });
     })
   }
 
-  sendPasswordRecovery (to) {
+  static sendRegistrationNotify ({ to, text }) {
     const mailOptions = {
-      from: this.from,
+      to,
+      subject: 'Thank you for join our resource!',
+      text
+    };
+
+    return this.sendMail(mailOptions)
+  }
+
+  static sendPasswordRecovery ({ to }) {
+    const mailOptions = {
       to,
       subject: 'Password recovery!',
       text: 'Hey! Want some password recovery? ...'
     };
     
-    this.sendMail(mailOptions)
+    return this.sendMail(mailOptions)
   }
 }

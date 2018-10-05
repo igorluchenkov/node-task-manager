@@ -8,6 +8,7 @@
 	"mailAccountData": {
 		"service": "gmail",
 		"user": "",
-		"pass": ""
+		"pass": "",
+		"from": "\"MailBot_test\" <iluchenkov@gmail.com>"
 	}
 }
