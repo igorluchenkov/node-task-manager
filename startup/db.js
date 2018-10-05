@@ -5,9 +5,9 @@ const config = require('config')
 module.exports = () => {
 	const { prefix, host, database } = config.get('db')
 	const connectionString = `${prefix}${host}/${database}`
-	console.log(connectionString)
+
+	const currentDate = (new Date()).toISOString()
 
 	mongoose.connect(connectionString, { useNewUrlParser: true })
-		.then(() => winston.info('Connected to MongoDB...'))
-		.catch(console.log)
+		.then(() => winston.info(`Connected to ${connectionString} at ${currentDate}`))
 }
