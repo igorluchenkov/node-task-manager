@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 const config = require('config')
 
-module.exports = class Mailer {
+class Mailer {
   constructor (nodemailer, config) {
     const { service, user, pass, from } = config.get('mailAccountData')
 
@@ -45,3 +45,5 @@ module.exports = class Mailer {
     return this.sendMail(mailOptions)
   }
 }
+
+module.exports = new Mailer(nodemailer, config)

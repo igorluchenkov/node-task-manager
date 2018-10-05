@@ -3,7 +3,8 @@ const config = require('config')
 module.exports = () => {
 	const configRequirements = [
 		'jwtPrivateKey',
-		'db'
+		'db',
+		'mailAccountData'
 	]
 
 	configRequirements.forEach(requirement => {
