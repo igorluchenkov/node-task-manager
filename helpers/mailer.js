@@ -1,8 +1,9 @@
 const nodemailer = require('nodemailer');
 const config = require('config')
+const winston = require('winston')
 
 class Mailer {
-  constructor (nodemailer, config) {
+	constructor (nodemailer, config) {
     const { service, user, pass, from } = config.get('mailAccountData')
 
     this.transporter = nodemailer.createTransport({
@@ -11,7 +12,7 @@ class Mailer {
     })
 
     this.from = from
-  }
+	}
 
   sendMail (mailOptions) {
     return new Promise((resolve, reject) => {
@@ -29,7 +30,8 @@ class Mailer {
   }
 
   logRejectedMailSending () {
-    // Winston logging here
+		console.log(error)
+    // winston.transports.File({ filename: 'logs/rejectedMails.log' })
   }
 }
 
