@@ -76,9 +76,7 @@ router.patch('/:id', [userHasAuthToken, canUserManageTasks], async (req, res) =>
 	const { id } = req.params
 
 	const task = await Task.findById({ _id: id })
-	if (!task) return res.status(400).send({
-		error: `Cannot find task with given ID: ${id}`
-	})
+	if (!task) return res.status(400).send(`Cannot find task with given ID: ${id}`)
 
 	task = {
 		...task,
@@ -103,6 +101,29 @@ router.delete('/:id', [userHasAuthToken, canUserManageTasks], async (req, res) =
 	await req.user.save()
 
   res.send(result);
+});
+
+router.post('/:id/share', [userHasAuthToken, canUserManageTasks], async (req, res) => {
+	const { id } = req.params
+	const task = await Task.find({ _id: id })
+	if (!task) return res.status(400).send('Cannot get task with given id.')
+	
+	const index = req.user.tasks.findIndex(task => task.id.toString() === id)
+	if (index === -1) return res.status(403).send(`You cannot share this task`)
+
+	const { shareOptions } = req.body
+	if (!shareOptions) return res.status(400).send(`"shareOptions" is required`)
+
+	shareOptions.forEach(async ({ id, readonly }) => {
+		const user = await User.findById({ _id: id })
+		user.tasks.push({
+			id: req.params.id,
+			readonly
+		})
+
+		await user.save()
+	})
+	res.send(task)
 });
 
 module.exports = router
