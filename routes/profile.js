@@ -1,17 +1,17 @@
 const express = require('express')
 const router = express.Router()
 const { User } = require('../models/user')
-const authToken = require('../middlewares/authToken')
-const loggedUser = require('../middlewares/loggedUser')
+const userHasAuthToken = require('../middlewares/userHasAuthToken')
+const userIsLogged = require('../middlewares/userIsLogged')
 const bcrypt = require('bcryptjs')
 const Mailer = require('../helpers/mailer')
 
-router.get('/', authToken, async (req, res) => {
+router.get('/', userHasAuthToken, async (req, res) => {
 	const user = await User.findById(req.user._id).select('-password')
 	res.send(user)
 })
 
-router.put('/password', [authToken, loggedUser], async (req, res) => {
+router.put('/password', [userHasAuthToken, userIsLogged], async (req, res) => {
 	const { newPassword } = req.body
 	if (!newPassword) return res.status(400).send('"newPassword" is required.')
 
@@ -23,7 +23,7 @@ router.put('/password', [authToken, loggedUser], async (req, res) => {
 	res.send(token);
 })
 
-router.put('/name', [authToken, loggedUser], async (req, res) => {
+router.put('/name', [userHasAuthToken, userIsLogged], async (req, res) => {
 	const { newName } = req.body
 	if (!newName) return res.status(400).send('"name" is required.')
 
@@ -34,19 +34,23 @@ router.put('/name', [authToken, loggedUser], async (req, res) => {
 	res.send(token);
 })
 
-router.put('/email', [authToken, loggedUser], async (req, res) => {
+router.put('/email', [userHasAuthToken, userIsLogged], async (req, res) => {
 	const { newEmail } = req.body
 	if (!newEmail) return res.status(400).send('"newEmail" is required.')
 
 	user.email = newEmail
 	await user.save()
 
-	await Mailer.sendMail({
+	const mail = await Mailer.sendMail({
 		to: req.body.email,
 		subject: 'Your email was changed!',
 		text: `Dear ${user.name}
 		You have successfully changed your account's email to ${newEmail}`
 	})
+
+	mail
+	.then(console.log)
+	.catch(console.error)
 
 	const token = req.header('x-auth-token')
 	res.send(token);

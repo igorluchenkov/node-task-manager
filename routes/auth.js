@@ -16,16 +16,17 @@ router.post('/register', async (req, res) => {
 	user = new User(_.pick(req.body, ['_id', 'name', 'email', 'password']))
 	const salt = await bcrypt.genSalt(10)
 	user.password = await bcrypt.hash(user.password, salt);
+	user.tasks = []
 	await user.save()
 
-	const mailerResult = Mailer.sendMail({
+	const mail = Mailer.sendMail({
 		to: req.body.email,
 		subject: 'Thank you for join our resource!',
 		text: `Dear ${user.name}
 		Thank you for signing up to our Task Manager!`
 	})
 	
-	mailerResult
+	mail
 		.then(console.log)
 		.catch(console.error)
 		

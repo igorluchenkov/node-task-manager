@@ -21,7 +21,7 @@ class Mailer {
         ...mailOptions
       }, (error, info) => {
         if (error) {
-          logRejectedMailSending(error)
+          this.logRejectedMailSending(error)
           reject(error)
         }
         resolve(info)
@@ -30,7 +30,6 @@ class Mailer {
   }
 
   logRejectedMailSending () {
-		console.log(error)
     // winston.transports.File({ filename: 'logs/rejectedMails.log' })
   }
 }
