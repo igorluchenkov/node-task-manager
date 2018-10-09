@@ -64,7 +64,7 @@ router.put('/:id', [userHasAuthToken, canUserManageTasks], async (req, res) => {
 	)
 
 	if (!result) return res.status(400).send({
-		error: `Cannot find task with given ID: ${id}`
+		error: `Cannot find task with given ID: ${id}.`
 	})
   res.send(result);
 });
@@ -76,7 +76,7 @@ router.patch('/:id', [userHasAuthToken, canUserManageTasks], async (req, res) =>
 	const { id } = req.params
 
 	const task = await Task.findById({ _id: id })
-	if (!task) return res.status(400).send(`Cannot find task with given ID: ${id}`)
+	if (!task) return res.status(400).send(`Cannot find task with given ID: ${id}.`)
 
 	task = {
 		...task,
@@ -93,7 +93,7 @@ router.delete('/:id', [userHasAuthToken, canUserManageTasks], async (req, res) =
 	const result = await Task.findByIdAndRemove({ _id: id })
 
 	if (!result) return res.status(400).send({
-		error: `Cannot find task with given ID: ${id}` 
+		error: `Cannot find task with given ID: ${id}.` 
 	})
 
 	const index = req.user.tasks.findIndex(task => task.id.toString() === id)

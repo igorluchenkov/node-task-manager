@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
 		.length > 0 
 
 	if (!canUserChangeTask) {
-		return res.status(403).send(`You cannot delete task with given ID: ${id}`)
+		return res.status(403).send(`You cannot delete task with given ID: ${id}.`)
 	}
 
 	next();
