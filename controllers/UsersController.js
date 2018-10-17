@@ -1,3 +1,5 @@
+const { User, validateUser } = require('../models/user')
+
 const getList = async (req, res) => {
 	const users = await User.find().select('_id, name, email')
 	if (!users) return res.status(400).send('Cannot get any user, collection is empty.')
