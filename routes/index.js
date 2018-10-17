@@ -5,6 +5,7 @@ const router = express.Router()
 const AuthController = require('../controllers/AuthController')
 const ProfileController = require('../controllers/ProfileController')
 const TasksController = require('../controllers/TasksController')
+const UserController = require('../controllers/UsersController')
 
 // Middlewares.
 const userCanManageTask = require('../middlewares/userCanManageTask')
