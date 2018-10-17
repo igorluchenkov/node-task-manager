@@ -15,8 +15,8 @@ const userHasAuthToken = require('../middlewares/userHasAuthToken')
 const userIsAdmin = require('../middlewares/userIsAdmin')
 
 // Auth.
-router.get('auth/', [userHasAuthToken], ProfileController.getInfo)
-router.put('auth/password', [userHasAuthToken, userIsLogged], ProfileController.changePassword)
+router.get('/auth/', [userHasAuthToken], ProfileController.getInfo)
+router.put('/auth/password', [userHasAuthToken, userIsLogged], ProfileController.changePassword)
 
 // Profile.
 router.put('/profile/name', [userHasAuthToken, userIsLogged], ProfileController.changeName)
@@ -26,12 +26,12 @@ router.post('/profile/register', AuthController.register)
 router.post('/profile/login', AuthController.login)
 
 // Tasks.
-router.get('tasks/', [userHasAuthToken, userCanReadTasks], TasksController.getList)
-router.get('tasks/:id', [userHasAuthToken, userCanReadTasks], TasksController.get)
-router.post('tasks/', [userHasAuthToken], TasksController.add);
-router.put('tasks/:id', [userHasAuthToken, userCanManageTask], TasksController.put);
-router.delete('tasks/:id', [userHasAuthToken, userCanManageTask], TasksController.remove);
-router.post('tasks/:id/share', [userHasAuthToken, userCanManageTask], TasksController.share);
+router.get('/tasks/', [userHasAuthToken, userCanReadTasks], TasksController.getList)
+router.get('/tasks/:id', [userHasAuthToken, userCanReadTasks], TasksController.get)
+router.post('/tasks/', [userHasAuthToken], TasksController.add);
+router.put('/tasks/:id', [userHasAuthToken, userCanManageTask], TasksController.put);
+router.delete('/tasks/:id', [userHasAuthToken, userCanManageTask], TasksController.remove);
+router.post('/tasks/:id/share', [userHasAuthToken, userCanManageTask], TasksController.share);
 
 // Users.
 router.get('/users/', [userHasAuthToken], UsersController.getList)
