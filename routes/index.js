@@ -1,18 +1,22 @@
 const express = require('express')
 const router = express.Router()
 
-// Controllers
-const AuthController = require('../controllers/AuthController')
-const ProfileController = require('../controllers/ProfileController')
-const TasksController = require('../controllers/TasksController')
-const UsersController = require('../controllers/UsersController')
+// Controllers.
+const {
+  AuthController,
+  ProfileController,
+  TasksController,
+  UsersController
+} = require('../controllers')
 
 // Middlewares.
-const userCanManageTask = require('../middlewares/userCanManageTask')
-const userCanReadTasks = require('../middlewares/userCanReadTasks')
-const userIsLogged = require('../middlewares/userIsLogged')
-const userHasAuthToken = require('../middlewares/userHasAuthToken')
-const userIsAdmin = require('../middlewares/userIsAdmin')
+const {
+  userCanManageTask,
+  userCanReadTasks,
+  userIsLogged,
+  userHasAuthToken,
+  userIsAdmin
+} = require('../middlewares')
 
 // Auth.
 router.post('/profile/register', AuthController.register)
