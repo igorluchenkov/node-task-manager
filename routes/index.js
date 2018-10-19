@@ -39,7 +39,8 @@ router.delete('/tasks/:id', [userHasAuthToken, userCanManageTask], TasksControll
 
 // Users.
 router.get('/users/', [userHasAuthToken], UsersController.getList)
-router.get('/users/:id', [userHasAuthToken], UsersController.get)
+router.get('/users/:id', [userHasAuthToken], UsersController.add)
+router.post('/users/', [userHasAuthToken, userIsAdmin], UsersController.post)
 router.put('/users/:id', [userHasAuthToken, userIsAdmin], UsersController.put)
 router.delete('/users/:id', [userHasAuthToken, userIsAdmin], UsersController.remove)
 

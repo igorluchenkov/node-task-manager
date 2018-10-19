@@ -14,6 +14,17 @@ const get = async (req, res) => {
 	res.send(user)
 }
 
+const add = async (req, res) => {
+	const { error } = validateUser(req.body)
+	if (error) return res.status(400).send(error.details[0].message)
+	
+	const user = new User(req.body)
+	await user.save()
+
+	const token = user.generateAuthToken()
+	res.header('x-auth-token', token).send(user)
+}
+
 const put = async (req, res) => {
 	const { error } = validateUser(req.body)
 	if (error) return res.status(400).send(error.details[0].message)
@@ -26,7 +37,7 @@ const put = async (req, res) => {
 	)
 
 	if (!result) return res.status(400).send(`Cannot find user with given ID: ${id}.`)
-  res.send(result);
+  res.send(result)
 }
 
 const remove = async (req, res) => {
@@ -35,12 +46,13 @@ const remove = async (req, res) => {
 
 	if (!result) return res.status(400).send(`Cannot find user with given ID: ${id}.`)
 
-  res.send(result);
+  res.send(result)
 }
 
 module.exports = {
     getList,
-    get,
+	get,
+	add,
     put,
     remove
 }
