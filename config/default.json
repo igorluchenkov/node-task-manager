@@ -1,0 +1,14 @@
+{
+    "mailAccountData": {
+        "service": "gmail",
+        "user": "root",
+        "pass": "",
+        "from": "example@mail.com"
+    },
+    "db": {
+        "prefix": "mongodb://",
+        "host": "localhost",
+        "database": "ntm"
+    },
+    "jwtPrivateKey": "123"
+}

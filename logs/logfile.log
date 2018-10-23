@@ -1,0 +1,4 @@
+{"message":"Connected to mongodb://localhost/ntm at 2018-10-23T18:09:29.691Z","level":"info"}
+{"message":"Cast to ObjectId failed for value \"1\" at path \"_id\" for model \"Task\"","name":"CastError","stringValue":"\"1\"","kind":"ObjectId","value":"1","path":"_id","level":"error"}
+{"expose":true,"statusCode":400,"status":400,"body":"{\n\t\"taskMessage\": \"taskMessage\",\n}","type":"entity.parse.failed","level":"error","message":"Unexpected token } in JSON at position 33"}
+{"message":"Connected to mongodb://localhost/ntm at 2018-10-23T18:15:24.130Z","level":"info"}
