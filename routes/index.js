@@ -12,15 +12,14 @@ const {
 // Middlewares.
 const {
   userCanManageTask,
-  userCanReadTasks,
   userIsLogged,
   userHasAuthToken,
   userIsAdmin
 } = require('../middlewares')
 
 // Auth.
-router.post('/profile/register', AuthController.register)
-router.post('/profile/login', AuthController.login)
+router.post('/auth/register', AuthController.register)
+router.post('/auth/login', AuthController.login)
 
 // Profile.
 router.get('/profile/', [userHasAuthToken], ProfileController.getInfo)
@@ -30,8 +29,8 @@ router.put('/profile/email', [userHasAuthToken, userIsLogged], ProfileController
 router.put('/profile/password', [userHasAuthToken, userIsLogged], ProfileController.changePassword)
 
 // Tasks.
-router.get('/tasks/', [userHasAuthToken, userCanReadTasks], TasksController.getList)
-router.get('/tasks/:id', [userHasAuthToken, userCanReadTasks], TasksController.get)
+router.get('/tasks/', [userHasAuthToken], TasksController.getList)
+router.get('/tasks/:id', [userHasAuthToken], TasksController.get)
 router.post('/tasks/', [userHasAuthToken], TasksController.add)
 router.post('/tasks/:id/share', [userHasAuthToken, userCanManageTask], TasksController.share)
 router.put('/tasks/:id', [userHasAuthToken, userCanManageTask], TasksController.put)

@@ -1,11 +1,11 @@
 const Joi = require('joi')
-const { User, validateUser } = require('../models/user')
+const { User } = require('../models/user')
 const _ = require('lodash')
 const bcrypt = require('bcryptjs')
 const Mailer = require('../helpers/mailer')
 
 const register = async (req, res) => {
-	const { error } = validateUser(req.body)
+	const { error } = validateRegister(req.body)
 	if (error) return res.status(400).send(error.details[0].message)
 
 	let user = await User.findOne({ email: req.body.email })
@@ -29,7 +29,7 @@ const register = async (req, res) => {
 		.catch(console.error)
 		
 	const token = user.generateAuthToken()
-	res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email']));
+	res.send(token);
 }
 
 const login = async (req, res) => {
@@ -50,6 +50,17 @@ const validateLogin = req => {
 	const schema = {
 		email: Joi.string().min(5).max(255).required().email(),
 		password: Joi.string().min(5).max(1024).required()
+	}
+
+	return Joi.validate(req, schema)
+}
+
+const validateRegister = req => {
+	const schema = {
+		name: Joi.string().min(5).max(50).required(),
+		email: Joi.string().min(5).max(255).required().email(),
+		password: Joi.string().min(5).max(1024).required(),
+		passwordConfirmation: Joi.string().min(5).max(1024).required().valid(Joi.ref('password'))
 	}
 
 	return Joi.validate(req, schema)

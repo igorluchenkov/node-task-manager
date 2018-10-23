@@ -44,7 +44,7 @@ const add = async (req, res) => {
 	await user.save()
 
 	const token = user.generateAuthToken()
-	res.header('x-auth-token', token).send(task);
+	res.send(token);
 }
 
 const put = async (req, res) => {
